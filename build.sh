@@ -3,7 +3,7 @@
 if [ "$#" -ne 1 ] || [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
     printf "Downloads, builds, and bundles a tagged version of stampit.\n"
     printf "Usage: build.sh TAG\n\n"
-    printf "TAG is an existing tag in the https://github.com/stampit-org/stampit repository.\n\n"
+    printf "TAG is an existing tag in the https://github.com/stampit-org/stampit repository (e.g. 'v3.1.2').\n\n"
     exit 1
 fi
 
@@ -15,10 +15,9 @@ cd build
 npm install
 npm run build
 cd ..
-
-printf "Bundling stampit#%s for the web...\n" $1
-
-webpack && MINIFY=1 webpack
+cp build/dist/stampit.umd.js ./stampit.js
+cp build/dist/stampit.umd.min.js ./stampit.min.js
+cp build/dist/stampit.umd.js.map ./stampit.js.map
 
 printf "\nReview and test the bundle, then commit, tag, and push it:\n\n"
 printf "  git add .\n"
